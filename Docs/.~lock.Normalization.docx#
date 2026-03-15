@@ -1,1 +1,40 @@
-,emmanuel,HP,15.03.2026 19:20,file:///home/emmanuel/.config/libreoffice/4;
+1. Initial Universal Relation
+If all attributes from the ER diagram were combined into a single relation, the resulting universal relation would be:
+R(
+UserID, Email, PhoneNumber, FirstName, LastName, Password, Address,
+ReviewID, ReviewText, ReviewDate,
+ProductID, ProductName, Description,
+OrderItemID, Quantity, UnitPrice,
+OrderID, OrderDate, OrderStatus,DeliveryDate
+CartItemID, DateAdded, DeliveryDate,
+CategoryID, CategoryName, CatDescription,
+PaymentID, Amount, PaymentMethod, PaymentStatus, PaymentDate, TransactionID
+)
+This relation combines attributes belonging to multiple entities such as User, Product, Category, Review, Order, Cart Item, and Payment. Storing all attributes in a single table would lead to:
+•	Data redundancy (repeated storage of user and product data)
+•	Update anomalies (updating a user's information would require multiple row updates)
+•	Insertion anomalies (new products or users cannot be added without unrelated data)
+•	Deletion anomalies (deleting a record could remove important information unintentionally)
+Therefore, normalization is required to organize the data efficiently and maintain data integrity.
+
+2. Functional Dependencies
+User
+UserID → FirstName, LastName, Password, Address
+UserID →→ Email
+UserID →→ PhoneNumber
+Product
+ProductID → ProductName, Description, CategoryID
+Category
+CategoryID → CategoryName, CatDescription
+Review
+ReviewID → ReviewText, ReviewDate, UserID, ProductID
+Order
+OrderID → OrderDate, OrderStatus, UserID
+Order Item
+OrderItemID → Quantity, UnitPrice, ProductID, OrderID,DeliveryDate
+Cart Item
+CartItemID → UserID, ProductID, Quantity, DateAdded
+Payment
+PaymentID → Amount, PaymentMethod, PaymentStatus, PaymentDate, TransactionID, OrderID
+These dependencies describe how non-key attributes depend on primary keys.
+
